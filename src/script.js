@@ -1,6 +1,5 @@
-const BMI_HEADS = document.querySelectorAll('.bmi-head');
+const SOLAR_HEADS = document.querySelectorAll('.solar-head');
 const BMI_USC = document.getElementById('bmi-usc');
-const BMI_SI = document.getElementById('bmi-si');
 const CALC_BTN = document.getElementById('calc-btn');
 const CLR_BTN = document.getElementById('clr-btn');
 let activeForm;
@@ -11,26 +10,25 @@ window.addEventListener('DOMContentLoaded', () => {
     activeForm = "bmi-usc";
 });
 
-CALC_BTN.addEventListener('click', performBMICalc);
+CALC_BTN.addEventListener('click', performSolarCalc);
 CLR_BTN.addEventListener('click', () => {
     let forms = [...document.forms];
     forms.forEach(form => form.reset());
-    clearBMIInfo();
+    clearFtn();
 });
 
-// clear BMI Info
-function clearBMIInfo(){
+function clearFtn(){
     document.getElementById('bmi-value').innerHTML = "";
     document.getElementById('bmi-category').innerHTML = "";
     document.getElementById('bmi-gender').innerHTML = "";
 }
 
-// bmi calculation form toggle
-BMI_HEADS.forEach(bmiHead => {
+// calculation form toggle
+SOLAR_HEADS.forEach(bmiHead => {
     bmiHead.addEventListener('click', () => {
         if(bmiHead.id === "bmi-usc-head"){
             removeActiveClass();
-            clearBMIInfo();
+            clearFtn();
             bmiHead.classList.add('active-head');
             BMI_SI.classList.remove('show-bmi');
             BMI_USC.classList.add('show-bmi');
@@ -38,7 +36,7 @@ BMI_HEADS.forEach(bmiHead => {
         }
         if(bmiHead.id === "bmi-si-head"){
             removeActiveClass();
-            clearBMIInfo();
+            clearFtn();
             bmiHead.classList.add('active-head');
             BMI_USC.classList.remove('show-bmi');
             BMI_SI.classList.add('show-bmi');
@@ -49,55 +47,44 @@ BMI_HEADS.forEach(bmiHead => {
 
 // remove active class from heads
 function removeActiveClass(){
-    BMI_HEADS.forEach(bmiHead => {
+    SOLAR_HEADS.forEach(bmiHead => {
         bmiHead.classList.remove('active-head');
     });
 }
 
 // main bmi calculation function
-function performBMICalc(){
-    let BMIInfo = getUserInput();
-    if(BMIInfo) printBMIResult(BMIInfo);
+function performSolarCalc(){
+    let SolarInfo = getUserInput();
+    if(SolarInfo) SolarSavings(SolarInfo);
 }
 
 // get input values
 function getUserInput(){
     let status;
     // get input values from us units
-    if(activeForm === "bmi-usc"){
-        let age = document.getElementById('age1').value,
-            gender = document.querySelector('#bmi-usc input[name = "gender"]:checked').value,
-            heightFeet = document.getElementById('feet').value,
-            heightInches = document.getElementById('inches').value,
-            weightPounds = document.getElementById('pounds').value;
+    if(activeForm === "solar-c"){
+        let age = document.getElementById('age').value,
+            homeowner = document.querySelector('#solar-c input[name = "Homeowner"]:checked').value,
+            familyMembers = document.getElementById('familyCount').value,
+            evCount = document.getElementById('vehicles').value,
+            year = document.getElementById('year').value,
+            electricVehicle = document.querySelector('#solar-c input[name = "EVOwner"]:checked').value,
+            battery = document.querySelector('#solar-c input[name = "Battery"]:checked').value;
 
-        status = checkInputStatus([age, heightFeet, heightInches, weightPounds]);
+
+        status = checkInputStatus([age, homeowner, familyMembers, evCount, year, electricVehicle, battery]);
 
         if(status == true){
-            return calculateBMI({
-                gender,
+            return calculateSolar({
                 age,
-                height: parseFloat(heightFeet) * 12 + parseFloat(heightInches),
-                weight: parseFloat(weightPounds)
-            });
-        }
-    }
+                homeowner,
+                familyMembers,
+                evCount,
+                year,
+                electricVehicle,
+                battery,
+                taxCredit: parseFloat(2022) * 12 + parseFloat(),
 
-    // get input values form metric units
-    if(activeForm === "bmi-si"){
-        let age = document.getElementById('age2').value,
-            gender = document.querySelector('#bmi-si input[name = "gender"]:checked').value,
-            heightCm = document.getElementById('cm').value,
-            weightKg = document.getElementById('kg').value;
-
-        status = checkInputStatus([age, heightCm, weightKg]);
-
-        if(status === true){
-            return calculateBMI({
-                gender,
-                age,
-                height: parseFloat(heightCm) / 100,
-                weight: parseFloat(weightKg)
             });
         }
     }
@@ -116,32 +103,28 @@ function checkInputStatus(inputs){
     return true;
 }
 
-// calculate BMI Value
-function calculateBMI(values){
-    let BMI;
-    if(activeForm === 'bmi-usc'){
-        BMI = (703 * (values.weight / Math.pow(values.height, 2))).toFixed(2);
+// calculate Value
+function calculateSolar(values){
+    let savings;
+    if(activeForm === 'solar-c'){
+        savings = (703 * (values.weight / Math.pow(values.height, 2))).toFixed(2);
     } else {
-        BMI = (values.weight / Math.pow(values.height, 2)).toFixed(2);
+        savings = (values.weight / Math.pow(values.height, 2)).toFixed(2);
     }
-    return {gender: values.gender, BMI};
+    return {gender: values.gender, savings};
 }
 
-// print BMI result information
-function printBMIResult(BMIInfo){
-    document.getElementById('bmi-value').innerHTML = `${BMIInfo.BMI} kg/m<sup>2</sup>`;
+// print result information
+function SolarSavings(SolarInfo){
+    document.getElementById('solar-value').innerHTML = `${SolarInfo.savings} kg/m<sup>2</sup>`;
 
-    let bmiCategory;
-    if(BMIInfo.BMI < 18.5){
-        bmiCategory = "Underweight";
-    } else if(BMIInfo.BMI >= 18.5 && BMIInfo.BMI <= 24.9){
-        bmiCategory = "Normal Weight";
-    } else if(BMIInfo.BMI >= 25 && BMIInfo.BMI <= 29.9){
-        bmiCategory = "Overweight";
-    } else {
-        bmiCategory = "Obesity";
+    let SolarCategory;
+    if(SolarInfo.savings > 0){
+        SolarCategory = "Cost Effective!";
+    } else if(SolarInfo.savings < 0){
+        SolarCategory = "Not Worth The Costs";
     }
 
-    document.getElementById('bmi-category').innerHTML = `${bmiCategory}`;
-    document.getElementById('bmi-gender').innerHTML = BMIInfo.gender;
+    document.getElementById('solar-category').innerHTML = `${SolarCategory}`;
+    document.getElementById('home-owner').innerHTML = SolarInfo.gender;
 }

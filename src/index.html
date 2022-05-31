@@ -3,89 +3,101 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>BMI Calculator</title>
+    <title>Solar Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel = "stylesheet" href = "style.css">
+
 </head>
 <body>
 
+<img src="https://i.redd.it/bkievkdkds291.png" style="width:250px;height:250px;">
+
+<h1>This calculator outputs the costs that you can save per month with Solar, given relevant user input</h1>
+
 <div class = "container">
     <div class = "main-wrapper">
-        <div class = "bmi-heads">
-            <div id = "bmi-usc-head" class = "bmi-head active-head">
-                <h2>US Units</h2>
-            </div>
-            <div id = "bmi-si-head" class = "bmi-head">
-                <h2>Metric Units</h2>
+        <div class = "solar-head">
+            <div id = "solar-c-head" class = "solar-head active-head">
+                <h2>Solar Calculator</h2>
             </div>
         </div>
 
-        <div class="bmi-contents">
-            <!-- bmi us units -->
-            <div class = "bmi-content" id = "bmi-usc">
+        <div class="solar-contents">
+
+            <div class = "solar-content" id = "solar-c">
                 <form>
+                    <div>
+                        <p>Average Solar PVC Installation Cost: 14,700 USD</p>
+                    </div>
+                    <div>
+                        <p>-</p>
+                    </div>
+                    <div>
+                        <p>Electricity Utility Costs: $0.199 / kWh (Local)</p>
+                    </div>
+                    <div>
+                        <p>-</p>
+                    </div>
+                    <div>
+                        <p>Monthly Use of Electricity, per person: 893 kWh</p>
+                    </div>
+                    <div>
+                        <p>-</p>
+                    </div>
                     <div class = "form-group">
-                        <p>Age</p>
-                        <input type = "text" class = "form-control" placeholder="2 - 120" id = "age1">
+                        <p>Number of Family Members</p>
+                        <input type = "text" class = "form-control" placeholder="people" id = "familyCount">
                     </div>
 
                     <div class = "form-group col-3">
-                        <p>Gender</p>
+                        <p>Home Owner</p>
                         <div>
-                            <input type = "radio" name = "gender" id = "male" value = "male" checked>
-                            <label for = "male">Male</label>
+                            <input type = "radio" name = "Homeowner" id ="HOTrue" value = "true" checked>
+                            <label for = "HOTrue">True</label>
                         </div>
                         <div>
-                            <input type="radio" name = "gender" id = "female" value = "female">
-                            <label for = "female">Female</label>
+                            <input type="radio" name = "Homeowner" id ="HOFalse" value = "false">
+                            <label for = "HOFalse">False</label>
                         </div>
                     </div>
 
                     <div class = "form-group col-3">
-                        <p>Height</p>
-                        <input type = "text" class = "form-control" id = "feet" placeholder="feet">
-                        <input type = "text" class = "form-control" id = "inches" placeholder="inches">
+                        <p>Electric Vehicle Owner</p>
+                        <div>
+                            <input type = "radio" name = "EVOwner" id ="EVTrue" value = "true" checked>
+                            <label for = "EVFalse">True</label>
+                        </div>
+                        <div>
+                            <input type="radio" name = "EVOwner" id ="EVFalse" value = "false">
+                            <label for = "EVFalse">False</label>
+                        </div>
                     </div>
 
                     <div class = "form-group">
-                        <p>Weight</p>
-                        <input type = "text" class = "form-control" id = "pounds" placeholder="pounds">
+                        <p>Number of EV's</p>
+                        <input type = "text" class = "form-control" id = "vehicles" placeholder="vehicles">
                     </div>
+
+                    <div class = "form-group">
+                        <p>Year (Tax Credit)</p>
+                        <input type = "text" class = "form-control" id = "year" placeholder="i.e. 2022">
+                    </div>
+
+                    <div class = "form-group col-3">
+                        <p>Battery</p>
+                        <div>
+                            <input type = "radio" name = "Battery" id ="batteryTrue" value = "true" checked>
+                            <label for = "batteryTrue">True</label>
+                        </div>
+                        <div>
+                            <input type="radio" name = "Battery" id ="batteryFalse" value = "false">
+                            <label for = "batteryFalse">False</label>
+                        </div>
+                    </div>
+
                 </form>
             </div>
 
-            <!-- bmi metric units -->
-            <div class = "bmi-content" id = "bmi-si">
-                <form>
-                    <div class = "form-group">
-                        <p>Age</p>
-                        <input type = "text" class = "form-control" placeholder="2 - 120" id = "age2">
-                    </div>
-
-                    <div class = "form-group col-3">
-                        <p>Gender</p>
-                        <div>
-                            <input type = "radio" name = "gender" id = "male" value = "male" checked>
-                            <label for = "male">Male</label>
-                        </div>
-
-                        <div>
-                            <input type = "radio" name = "gender" id = "female" value = "female">
-                            <label for = "female">Female</label>
-                        </div>
-                    </div>
-
-                    <div class = "form-group">
-                        <p>Height</p>
-                        <input type = "text" class = "form-control" id = "cm" placeholder="cm">
-                    </div>
-
-                    <div class = "form-group">
-                        <p>Weight</p>
-                        <input type = "text" class = "form-control" id = "kg" placeholder="kg">
-                    </div>
-                </form>
-            </div>
         </div>
 
         <div class = "btns">
@@ -95,16 +107,14 @@
 
         <div class = "output">
             <span class = "alert-error">Some input are invalid!</span>
-            <div class = "bmi-output">
-                <h3 id = "bmi-value"></h3>
-                <p id = "bmi-category"></p>
-                <p id = "bmi-gender"></p>
+            <div class = "solar-output">
+                <h3 id = "solar-value"></h3>
+                <p id = "solar-category"></p>
+                <p id = "home-owner"></p>
             </div>
         </div>
     </div>
 </div>
-
-
 
 
 <script src = "script.js"></script>
